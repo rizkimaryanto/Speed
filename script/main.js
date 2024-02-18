@@ -1,17 +1,17 @@
-'use strict';
+import { startScene } from "./scene/startScene";
 
-import { StartScene } from "./scene/startScene";
+/* -------------------------------------------------------------------------- */
+/*                             GAME INITIALISATION                            */
+/* -------------------------------------------------------------------------- */
 
-/**
- * NOTE TO READER: 
- * Please respectfully use this project only with vite.
- * Module script does not work in plain HTML with live server extension.
- */
+const /** @type {HTMLCanvasElement} */ canvas = document.getElementById("cvs");
+const /** @type {CanvasRenderingContext2D} */ ctx = canvas.getContext("2d");
+const /** @type {HTMLButtonElement} */ tapBtn = document.getElementById("tap-btn");
+// Set canvas size
+canvas.width = 300; // 300px or 18.75rem
+canvas.height = 20; // 20px or 1.25rem
 
-const /** @type {HTMLCanvasElement} */ canvas = document.getElementById('cvs');
-const /** @type {CanvasRenderingContext2D} */ ctx = canvas.getContext('2d');
-const startScene = new StartScene();
-
+let spacebarPressed = false;
 let fpsInterval, initTime, now, then, elapsed; // all requirements for animation
 const ONE_SECOND_IN_MS = 1000;
 
@@ -21,20 +21,20 @@ const ONE_SECOND_IN_MS = 1000;
  * @return {void} This function does not return any value.
  */
 const animate = () => {
-    requestAnimationFrame(animate); //request loop animation
-    now = Date.now(); //get current timestamp
-    elapsed = now - then; //get elapsed time since last frame
+  requestAnimationFrame(animate); //request loop animation
+  now = Date.now(); //get current timestamp
+  elapsed = now - then; //get elapsed time since last frame
 
-    //check whether elapsed has passed fps interval
-    if (elapsed > fpsInterval) {
-        //clear the canvas every frame
-        ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
-        //draw the game scene and update the game scene each frame
-        // startScene.draw();
-        startScene.update();
+  //check whether elapsed has passed fps interval
+  if (elapsed > fpsInterval) {
+    //clear the canvas every frame
+    ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
+    //draw the game scene and update the game scene each frame
+    startScene.draw();
+    startScene.update();
 
-        then = now - (elapsed % fpsInterval); //set `now` to `then` (as the canvas has changed frame) and tolerate miscalculated time
-    }
+    then = now - (elapsed % fpsInterval); //set `now` to `then` (as the canvas has changed frame) and tolerate miscalculated time
+  }
 };
 
 /**
@@ -44,9 +44,30 @@ const animate = () => {
  * @return {void} This function does not return a value.
  */
 const startAnimate = (fps = 1) => {
-    fpsInterval = ONE_SECOND_IN_MS / fps; //get how much time should elapse between each frame
-    initTime = then = Date.now();
-    animate(); //call the animate func to start the game
-    console.log(`Game has started, TIMESTAMP: ${initTime}`);
+  fpsInterval = ONE_SECOND_IN_MS / fps; //get how much time should elapse between each frame
+  initTime = then = Date.now();
+  animate(); //call the animate func to start the game
+  console.log(`Game has started, TIMESTAMP: ${initTime}`);
 };
-startAnimate(1);
+startAnimate(120);
+
+/* -------------------------------------------------------------------------- */
+/*                               EVENT LISTENER                               */
+/* -------------------------------------------------------------------------- */
+window.onkeydown = (e) => {
+  if (e.key === " " && !spacebarPressed) {
+    spacebarPressed = true;
+    console.log("tap space");
+  }
+};
+window.onkeyup = (e) => {
+  if (e.key === " " || e.key === "Space") {
+    spacebarPressed = false;
+  }
+};
+
+tapBtn.onclick = () => {
+  console.log("tap");
+};
+
+export { ctx, canvas };
