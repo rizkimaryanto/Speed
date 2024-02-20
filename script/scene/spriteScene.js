@@ -4,7 +4,7 @@ export class SpriteScene {
   constructor(/** @type {import("./startScene").startScene} */ game) {
     this.game = game;
     this.color = "#c17aff";
-    this.size = canvas.height;
+    this.size = this.game.height;
     this.speed = 5;
     this.x = 0;
     this.y = game.centerY - this.size / 2;

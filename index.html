@@ -6,25 +6,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./css/style.css" />
     <link rel="preconnect" href="https://fonts.bunny.net" />
-    <link
-      href="https://fonts.bunny.net/css?family=anton:400"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.bunny.net/css?family=anton:400" rel="stylesheet" />
     <title>Tap On Time</title>
   </head>
 
-  <body
-    class="bg-gradient-to-r from-indigo-900 via-purple-700 to-indigo-900 min-h-svh"
-  >
-    <h1 class="block text-center italic text-white font-[anton] text-4xl pt-5">
-      Tap On Time
-    </h1>
-    <canvas
-      id="cvs"
-      class="bg-slate-900 text-white font-bold rounded-3xl mx-auto mt-8 border-2 border-violet"
-    >
-    </canvas>
-    <button id="tap-btn" class="block btn btn-active mx-auto mt-5 w-9/12">Tap</button>
+  <body class="bg-gradient-to-r from-indigo-900 via-purple-700 to-indigo-900 min-h-svh">
+    <section class="flex flex-col h-svh justify-between sm:justify-center pb-14 sm:pb-64">
+      <h1 class="block text-center italic text-white font-[anton] text-4xl pt-5">Tap On Time</h1>
+      <!-- GAME SECT -->
+      <canvas
+        id="cvs"
+        class="bg-slate-900 text-white font-bold rounded-3xl mx-auto mt-8 border-2 border-violet"
+      >
+      </canvas>
+      <button id="tap-btn" class="block btn btn-active mx-auto w-9/12 mt-8">Tap</button>
+    </section>
+    <!-- GAME SECT -->
     <script type="module" src="script/main.js"></script>
   </body>
 </html>

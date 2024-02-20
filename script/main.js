@@ -7,9 +7,7 @@ import { startScene } from "./scene/startScene";
 const /** @type {HTMLCanvasElement} */ canvas = document.getElementById("cvs");
 const /** @type {CanvasRenderingContext2D} */ ctx = canvas.getContext("2d");
 const /** @type {HTMLButtonElement} */ tapBtn = document.getElementById("tap-btn");
-// Set canvas size
-canvas.width = 300; // 300px or 18.75rem
-canvas.height = 20; // 20px or 1.25rem
+
 
 let spacebarPressed = false;
 let fpsInterval, initTime, now, then, elapsed; // all requirements for animation
@@ -49,7 +47,6 @@ const startAnimate = (fps = 1) => {
   animate(); //call the animate func to start the game
   console.log(`Game has started, TIMESTAMP: ${initTime}`);
 };
-startAnimate(120);
 
 /* -------------------------------------------------------------------------- */
 /*                               EVENT LISTENER                               */
@@ -69,5 +66,6 @@ window.onkeyup = (e) => {
 tapBtn.onclick = () => {
   console.log("tap");
 };
+document.addEventListener("DOMContentLoaded", startAnimate(120));
 
 export { ctx, canvas };
