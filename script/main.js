@@ -1,4 +1,4 @@
-import { startScene } from "./scene/startScene";
+import { StartScene } from "./scene/startScene";
 
 /* -------------------------------------------------------------------------- */
 /*                             GAME INITIALISATION                            */
@@ -7,11 +7,13 @@ import { startScene } from "./scene/startScene";
 const /** @type {HTMLCanvasElement} */ canvas = document.getElementById("cvs");
 const /** @type {CanvasRenderingContext2D} */ ctx = canvas.getContext("2d");
 const /** @type {HTMLButtonElement} */ tapBtn = document.getElementById("tap-btn");
-
+canvas.width = 300; // 300px or 18.75rem
+canvas.height = 20; // 20px or 1.25rem
 
 let spacebarPressed = false;
 let fpsInterval, initTime, now, then, elapsed; // all requirements for animation
 const ONE_SECOND_IN_MS = 1000;
+const startScene = new StartScene(canvas, ctx);
 
 /**
  * Animate the function by requesting animation frames and updating the game scene.
@@ -58,7 +60,7 @@ window.onkeydown = (e) => {
   }
 };
 window.onkeyup = (e) => {
-  if (e.key === " " || e.key === "Space") {
+  if (e.key === " ") {
     spacebarPressed = false;
   }
 };
@@ -67,5 +69,3 @@ tapBtn.onclick = () => {
   console.log("tap");
 };
 document.addEventListener("DOMContentLoaded", startAnimate(120));
-
-export { ctx, canvas };
