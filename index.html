@@ -13,12 +13,12 @@
   <body class="bg-gradient-to-r from-indigo-900 via-purple-700 to-indigo-900 min-h-svh">
     <!-- --------------------------- TUTORIAL MODAL ---------------------------- -->
     <button
-      class="btn btn-sm rounded-full fixed top-5 right-5 hover:scale-125 hover:shadow-lg hover:before:content-['get_help'] font-mono"
+      class="btn btn-sm rounded-full fixed top-5 right-28 hover:scale-110 hover:shadow-lg sm:hover:before:content-['get_help'] font-mono"
       onclick="tutorial_modal.showModal()"
     >
       ?
     </button>
-    <dialog id="tutorial_modal" class="modal">
+    <dialog id="tutorial_modal" class="modal -mt-24">
       <div class="modal-box">
         <h3 class="font-bold text-lg">How to play</h3>
         <p>TO BE GAME TUTORIAL</p>
@@ -73,6 +73,12 @@
       <!-- INFO SECT -->
       <!-- ------------------------------ GAME SECT ------------------------------ -->
     </section>
+    <button
+      class="btn btn-sm rounded-full fixed top-5 right-5 hover:scale-125 hover:shadow-lg font-mono"
+      onclick="location.reload()"
+    >
+      Restart
+    </button>
     <script type="module" src="script/main.js"></script>
   </body>
 </html>

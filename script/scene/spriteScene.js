@@ -74,7 +74,7 @@ export class SpriteScene {
    * A function that decrements the score by 5 when hit is outside of target area.
    */
   failHit() {
-    this.game.score -= 5;
+    this.game.score < 5 ? (this.game.score = 0) : (this.game.score -= 5);
   }
 
   /**
@@ -88,9 +88,10 @@ export class SpriteScene {
    * Increase the speed of the game based on the current difficulty setting.
    */
   increaseSpeed() {
+    const speedAddition = Math.fround((this.game.difficulty.speed += 0.1)).toFixed(1);
     this.speed < 0
-      ? (this.speed = -Math.abs((this.game.difficulty.speed += 0.5)))
-      : (this.speed = Math.abs((this.game.difficulty.speed += 0.5)));
+      ? (this.speed = -Math.abs(speedAddition))
+      : (this.speed = Math.abs(speedAddition));
   }
 
   /**
