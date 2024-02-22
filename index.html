@@ -11,17 +11,68 @@
   </head>
 
   <body class="bg-gradient-to-r from-indigo-900 via-purple-700 to-indigo-900 min-h-svh">
+    <!-- --------------------------- TUTORIAL MODAL ---------------------------- -->
+    <button
+      class="btn btn-sm rounded-full fixed top-5 right-5 hover:scale-125 hover:shadow-lg hover:before:content-['get_help'] font-mono"
+      onclick="tutorial_modal.showModal()"
+    >
+      ?
+    </button>
+    <dialog id="tutorial_modal" class="modal">
+      <div class="modal-box">
+        <h3 class="font-bold text-lg">How to play</h3>
+        <p>TO BE GAME TUTORIAL</p>
+        <p class="py-4 text-xs">Press ESC key or click outside to close</p>
+      </div>
+      <form method="dialog" class="modal-backdrop">
+        <button>close</button>
+      </form>
+    </dialog>
+    <!-- --------------------------- TUTORIAL MODAL ---------------------------- -->
+
     <section class="flex flex-col h-svh justify-between sm:justify-center pb-14 sm:pb-64">
-      <h1 class="block text-center italic text-white font-[anton] text-4xl pt-5 mt-3">Tap On Time</h1>
-      <!-- GAME SECT -->
+      <!-- TITLE SECT -->
+      <h1 class="block text-center italic text-white font-[anton] text-4xl pt-5 mt-3 mb-5">
+        Tap On Time
+      </h1>
+      <!-- TITLE SECT -->
+      <!-- DIFFICULTY SECT -->
+      <div class="flex flex-row justify-center gap-x-3">
+        <button class="btn btn-sm btn-success" onclick="window.location.search='?difficulty=easy'">
+          Easy
+        </button>
+        <button
+          class="btn btn-sm btn-warning"
+          onclick="window.location.search='?difficulty=medium'"
+        >
+          Medium
+        </button>
+        <button class="btn btn-sm btn-error" onclick="window.location.search='?difficulty=hard'">
+          Hard
+        </button>
+      </div>
+      <!-- DIFFICULTY SECT -->
+      <!-- ------------------------------ GAME SECT ------------------------------ -->
+      <!-- SCORE BOARD -->
+      <div class="mt-auto mb-3 flex flex-row w-9/12 mx-auto justify-between">
+        <p id="difficulty" class="badge badge-neutral pb-[.125rem]">-</p>
+        <p id="score" class="badge badge-ghost pb-[.125rem]">Score: --</p>
+      </div>
+      <!-- SCORE BOARD -->
+      <!-- CANVAS -->
       <canvas
         id="cvs"
-        class="bg-slate-900 text-white font-bold rounded-3xl mx-auto mt-8 border-2 border-violet"
+        width="0"
+        height="0"
+        class="bg-slate-900 text-white font-bold mx-auto mt-8 border-x-2 border-violet-500 mb-auto"
       >
       </canvas>
+      <!-- CANVAS -->
+      <!-- TAP SECT -->
       <button id="tap-btn" class="block btn btn-active mx-auto w-9/12 mt-8">Tap</button>
+      <!-- INFO SECT -->
+      <!-- ------------------------------ GAME SECT ------------------------------ -->
     </section>
-    <!-- GAME SECT -->
     <script type="module" src="script/main.js"></script>
   </body>
 </html>

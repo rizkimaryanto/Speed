@@ -3,17 +3,28 @@ import { StartScene } from "./scene/startScene";
 /* -------------------------------------------------------------------------- */
 /*                             GAME INITIALISATION                            */
 /* -------------------------------------------------------------------------- */
+const ONE_SECOND_IN_MS = 1000;
+const difficulty = {
+  easy: { speed: 6, size: 90 },
+  medium: { speed: 10, size: 50 },
+  hard: { speed: 13, size: 30 },
+};
 
 const /** @type {HTMLCanvasElement} */ canvas = document.getElementById("cvs");
 const /** @type {CanvasRenderingContext2D} */ ctx = canvas.getContext("2d");
-const /** @type {HTMLButtonElement} */ tapBtn = document.getElementById("tap-btn");
+const /** @type {HTMLParagraphElement} */ difficultyTag = document.getElementById("difficulty");
+
+const difficultyQueryParam = new URLSearchParams(window.location.search).get("difficulty");
+const chosenDifficulty = Object.keys(difficulty).includes(difficultyQueryParam)
+  ? difficulty[difficultyQueryParam]
+  : difficulty.easy;
+
+difficultyTag.textContent = difficultyQueryParam ?? "easy";
 canvas.width = 300; // 300px or 18.75rem
 canvas.height = 20; // 20px or 1.25rem
 
-let spacebarPressed = false;
 let fpsInterval, initTime, now, then, elapsed; // all requirements for animation
-const ONE_SECOND_IN_MS = 1000;
-const startScene = new StartScene(canvas, ctx);
+const startScene = new StartScene(canvas, ctx, chosenDifficulty);
 
 /**
  * Animate the function by requesting animation frames and updating the game scene.
@@ -25,15 +36,15 @@ const animate = () => {
   now = Date.now(); //get current timestamp
   elapsed = now - then; //get elapsed time since last frame
 
-  //check whether elapsed has passed fps interval
+  // Check whether elapsed has passed fps interval
   if (elapsed > fpsInterval) {
-    //clear the canvas every frame
+    // Clear the canvas every frame
     ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
-    //draw the game scene and update the game scene each frame
+    // Draw the game scene and update the game scene each frame
     startScene.draw();
     startScene.update();
 
-    then = now - (elapsed % fpsInterval); //set `now` to `then` (as the canvas has changed frame) and tolerate miscalculated time
+    then = now - (elapsed % fpsInterval); // Set `now` to `then` (as the canvas has changed frame) and tolerate miscalculated time
   }
 };
 
@@ -44,28 +55,13 @@ const animate = () => {
  * @return {void} This function does not return a value.
  */
 const startAnimate = (fps = 1) => {
-  fpsInterval = ONE_SECOND_IN_MS / fps; //get how much time should elapse between each frame
+  fpsInterval = ONE_SECOND_IN_MS / fps; // Get how much time should elapse between each frame
   initTime = then = Date.now();
-  animate(); //call the animate func to start the game
+  animate(); // Call the animate func to start the game
   console.log(`Game has started, TIMESTAMP: ${initTime}`);
 };
 
 /* -------------------------------------------------------------------------- */
 /*                               EVENT LISTENER                               */
 /* -------------------------------------------------------------------------- */
-window.onkeydown = (e) => {
-  if (e.key === " " && !spacebarPressed) {
-    spacebarPressed = true;
-    console.log("tap space");
-  }
-};
-window.onkeyup = (e) => {
-  if (e.key === " ") {
-    spacebarPressed = false;
-  }
-};
-
-tapBtn.onclick = () => {
-  console.log("tap");
-};
-document.addEventListener("DOMContentLoaded", startAnimate(120));
+document.addEventListener("DOMContentLoaded", startAnimate(45)); //
