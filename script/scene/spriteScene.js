@@ -9,17 +9,18 @@ export class SpriteScene {
     this.color = "#c17aff";
     this.size = game.height;
     this.speed = game.difficulty.speed;
-    this.x = 0;
+    this.x = 1;
     this.y = game.verticalCenter(this.size);
     this.spacebarPressed = false;
     this.hittable = false;
+    this.maxSpeed = this.game.difficulty.speed + 5;
     /* -------------------------------------------------------------------------- */
     /*                                 CONTROLLER                                 */
     /* -------------------------------------------------------------------------- */
     window.onkeydown = (/** @type {KeyboardEvent} */ e) => {
       if (e.key === " " && !this.spacebarPressed) {
+        this.hittable ? this.successHit() : this.failHit();
         this.spacebarPressed = true;
-        console.log("tap space");
       }
     };
     window.onkeyup = (/** @type {KeyboardEvent} */ e) => {
@@ -29,7 +30,7 @@ export class SpriteScene {
     };
     tapBtn.onpointerdown = () => {
       if (!this.spacebarPressed) {
-        console.log("tap");
+        this.hittable ? this.successHit() : this.failHit();
       }
     };
   }
@@ -58,10 +59,52 @@ export class SpriteScene {
   }
 
   /**
+   * Increments the game score by 25 points, adjusts the game difficulty, and potentially increases the game difficulty.
+   * Also respawn the target area.
+   */
+  successHit() {
+    this.game.score += 25;
+    this.game.difficulty.speed < this.maxSpeed && this.increaseSpeed();
+    this.game.targetScene.width = this.game.targetScene.generateRandomWidth();
+    this.game.difficulty.size > 30 && this.increaseDifficulty();
+    this.game.targetScene.x = this.game.targetScene.generateXposition();
+  }
+
+  /**
+   * A function that decrements the score by 5 when hit is outside of target area.
+   */
+  failHit() {
+    this.game.score -= 5;
+  }
+
+  /**
+   * Increase the difficulty of the game by reducing the size.
+   */
+  increaseDifficulty() {
+    this.game.difficulty.size -= 2;
+  }
+
+  /**
+   * Increase the speed of the game based on the current difficulty setting.
+   */
+  increaseSpeed() {
+    this.speed < 0
+      ? (this.speed = -Math.abs((this.game.difficulty.speed += 0.5)))
+      : (this.speed = Math.abs((this.game.difficulty.speed += 0.5)));
+  }
+
+  /**
    * Moves the sprite by its speed.
    */
   move() {
     this.x += this.speed;
+  }
+
+  /**
+   * Calculate the score based on the current game score.
+   */
+  calculateScore() {
+    this.game.score < 10 ? (this.game.score -= this.game.score) : (this.game.score -= 10);
   }
 
   /**
@@ -71,6 +114,7 @@ export class SpriteScene {
   checkCollisionCanvasEnd() {
     if (this.x > this.game.width - this.size) {
       this.speed = -Math.abs(this.speed);
+      this.calculateScore();
     }
   }
 
@@ -81,6 +125,7 @@ export class SpriteScene {
   checkCollisionCanvasStart() {
     if (this.x <= 0) {
       this.speed = Math.abs(this.speed);
+      this.calculateScore();
     }
   }
 }
