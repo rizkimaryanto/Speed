@@ -22,9 +22,13 @@ bun dev
 
 Open [http://localhost:5173](http://localhost:5173/) with your browser to see the result.
 
-## Initializing game scene
+## Making JSCanvas Game
 
-Make a new folder inside script (e.g scene) to group all game object. I use scene because it's smiliar to Unity engine folder structures (scene based game object).
+Here we'll be learning how to make a JSCanvas game, my way.
+
+### Making game scene
+
+After doing some cleanups, make a new folder inside script (e.g scene) to group all game object. I use scene because it's smiliar to Unity's folder structures (scene based game object).
 
 You may use any folder structure as you will.
 
@@ -60,15 +64,15 @@ export class StartScene {
 
 `startScene.js` act like a container of the game. Any game object will be initialized inside it.
 
-## Game scene
+### Knowing game scene
 
-After we're done with main scene, we can make other game object by making another game scene. I'll demonstrate with `spriteScene.js` as an example. file naming is up to you but I personally like to stick with one naming convention to reduce confusion and more meaningful names.
+After we're done with main scene, we can make other game object by making another game scene. File naming is up to you but I personally like to stick with one naming convention to reduce confusion and more meaningful names.
 
-Before we dive in to the actual code, we must know what main component in game scene. Usually there are two main method; `draw()` and `update()`. Which I will explain shortly.
+Before we dive in into the actual code, we must know main component in JS Canvas game making. Usually there are two main method; `draw()` and `update()`. Which I will explain shortly.
 
-### `draw()`
+#### `draw()`
 
-`draw()` is a method that tells the scene what to draw inside the canvas. They include X and Y of the canvas location as to where draw and what object to draw.
+`draw()` is a method that tells the scene what to draw inside the canvas. They include X and Y of the canvas location as to where to draw and also what object to draw.
 
 Here is a demo use of `draw()` method to draw a red rectangle.
 
@@ -87,11 +91,11 @@ class GameScene{
 }
 ```
 
-### `update()`
+#### `update()`
 
-what is `update()`? We may already have a method that keeps drawing itslef, but what about updating current condition like moving, hit, and jump? That's where `update()` take control. You actually can use just one method but it's more convenient this way. These method is separated by its usage; one for drawing and other for updating conditions.
+what is `update()`? We may already have a method that keeps drawing itslef, but what about updating current condition like moving, hit, and jump? That's where `update()` take control. You actually can use just one method but it's more convenient this way. These method will be separated by its usage; one for drawing and other for updating conditions.
 
-Demo of `update()` to constantly increment the `x` prop of a class. Thus, making the object drawn always move.
+Demo of `update()` that constantly increment the `x` prop of a class. Thus, making the object drawn always move.
 
 ```javascript
 class GameScene{
@@ -122,7 +126,7 @@ In the example above, the game object is moving 1px per frame as defined. The `x
 
 Another thing that I usually do is move every sub-function of the update condition into its own method. That way, the code will be easier to read, maintain, and debug. Just as I did with `move()`.
 
-### `constructor()`
+#### `constructor()`
 
 `constructor()` will always be executed firstly, initializing all props inside it. In JsCanvas, constructor have a big role in terms of connecting the scene to one another. Making them able to "communicate" their current state.
 
