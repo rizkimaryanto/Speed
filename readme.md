@@ -319,4 +319,4 @@ document.addEventListener("DOMContentLoaded", startAnimate(45)); //animate with 
 
 ![1712682018241](image/readme/1712682018241.png)
 
-Or visit [localhost:5173/example](localhost:5173/example) if the server is running.
+Or visit [http://localhost:5173/example](http://localhost:5173/example) if the server is running.
