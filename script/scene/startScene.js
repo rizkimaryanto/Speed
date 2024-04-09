@@ -13,6 +13,21 @@ export class StartScene {
     this.targetScene = new TargetScene(this);
     this.score = 0;
   }
+  /**
+   * Do popup for score
+   * @param {string} score
+   */
+  popupScore(scoreInText = "0") {
+    let span = document.createElement("span");
+    span.className =
+      "text-white text-3xl font-bold absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2";
+    span.innerHTML = scoreInText;
+    span.style.translate = `${~~(Math.random() * 201) - 100}px ${~~(Math.random() * 201) - 100}px`;
+    document.getElementById("main").appendChild(span);
+    setTimeout(() => {
+      span.remove();
+    }, 500);
+  }
   draw() {
     this.targetScene.draw();
     this.spriteScene.draw();

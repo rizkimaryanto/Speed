@@ -68,6 +68,7 @@ export class SpriteScene {
     this.game.targetScene.width = this.game.targetScene.generateRandomWidth();
     this.game.difficulty.size > 30 && this.increaseDifficulty();
     this.game.targetScene.x = this.game.targetScene.generateXposition();
+    this.game.popupScore("+25");
   }
 
   /**
@@ -75,6 +76,7 @@ export class SpriteScene {
    */
   failHit() {
     this.game.score < 5 ? (this.game.score = 0) : (this.game.score -= 5);
+    this.game.popupScore("-5");
   }
 
   /**
