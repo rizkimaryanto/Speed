@@ -278,11 +278,6 @@ class CubeClass {
 
 const main = new MainClass(); // init the main class
 
-/**
- * Animate the function by requesting animation frames and updating the game scene.
- * Will loop through the function until the browser window is closed.
- * @return {void} This function does not return any value.
- */
 const animate = () => {
   requestAnimationFrame(animate); //request loop animation
   now = Date.now(); //get current timestamp
@@ -300,12 +295,6 @@ const animate = () => {
   }
 };
 
-/**
- * Start the animation with the given frames per second (fps).
- * Init the animation start
- * @param {number} fps - The number of frames per second.
- * @return {void} This function does not return a value.
- */
 const startAnimate = (fps = 1) => {
   fpsInterval = ONE_SECOND_IN_MS / fps; // Get how much time should elapse between each frame
   initTime = then = Date.now();
