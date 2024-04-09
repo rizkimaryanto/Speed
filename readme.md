@@ -30,8 +30,6 @@ Here we'll be learning how to make a JSCanvas game, my way.
 
 After doing some cleanups, make a new folder inside script (e.g scene) to group all game object. I use scene because it's smiliar to Unity's folder structures (scene based game object).
 
-You may use any folder structure as you will.
-
 ```bash
 /
 ├── ...
@@ -40,6 +38,8 @@ You may use any folder structure as you will.
 │   └── main.js
 └── ...
 ```
+
+You may also use any folder structure as you will.
 
 Inside the scene, there we place all game object like player, background, bot, enemy, etc.
 
@@ -64,7 +64,7 @@ export class StartScene {
 
 `startScene.js` act like a container of the game. Any game object will be initialized inside it.
 
-### Knowing game scene
+### Basic to JsCanvas
 
 After we're done with main scene, we can make other game object by making another game scene. File naming is up to you but I personally like to stick with one naming convention to reduce confusion and more meaningful names.
 
@@ -159,3 +159,164 @@ class PositionClass{
 ```
 
 By utilizing `constructor()` this way, it is possible to pass properties from siblings to siblings through parent class. An example usage of this: object intersection, object collision, player lifes, and many more.
+
+#### Starting the animation
+
+In JsCanvas, we have to manually animate it. There are no engine used here, although you can use any if you want (e.g PhaserJS).
+
+There are two method I know in how to animate the canvas:
+
+1. `setInterval()`
+   The code is as seen.
+
+   ```javascript
+   setInterval(() => {
+       // --- JS CANVAS ANIMATION FUNCTION ---
+   }, /* how many ms per interval */ 200);
+   ```
+
+   *I rarely use `setInterval()`. Very sorry for the short example.**
+2. `requestAnimationFrame()`
+
+   ```javascript
+   // the function that will loop over and over
+   const animate = () => {
+     requestAnimationFrame(animate); //request loop animation
+     now = Date.now(); //get current timestamp
+     elapsed = now - then; //get elapsed time since last frame
+
+     // Check whether elapsed has passed fps interval
+     if (elapsed > fpsInterval) {
+       // Clear the canvas every frame
+       ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
+
+       // --- JS CANVAS ANIMATION FUNCTION ---
+
+       // Set `now` to `then` (as the canvas has changed frame) and tolerate miscalculated time
+       then = now - (elapsed % fpsInterval); 
+     }
+   };
+
+   // to init the animation
+   const startAnimate = (fps = 1) => {
+     fpsInterval = ONE_SECOND_IN_MS / fps; // Get how much time should elapse between each frame
+     initTime = then = Date.now(); //set initTime
+     animate(); // Call the animate func to start the game
+   };
+
+   // most of the time, you want the animation to start after all the dom content loaded.
+   document.addEventListener("DOMContentLoaded", startAnimate(45)); //animate with 45 fps
+   ```
+
+   You may be wondering, "isn't it more complicated this way?". Well, yeah. However, this is the most optimized and recommended way to loop an animation over and over again.
+
+### Full example of JsCanvas basic
+
+#### `example.html`
+
+```html
+<!-- example.html -->
+
+<!DOCTYPE html>
+<html data-theme="light" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/style.css" />
+    <title>Example</title>
+</head>
+<body>
+    <canvas class="absolute border border-blue-500 left-1/2 -translate-x-1/2" id="cvs"></canvas>
+    <script src="./script/example.js"></script>
+</body>
+</html>
+```
+
+#### `example.js`
+
+```javascript
+//example.js
+
+let fpsInterval, initTime, now, then, elapsed; // all requirements for animation
+const ONE_SECOND_IN_MS = 1000;
+const /** @type {HTMLCanvasElement} */ canvas = document.getElementById("cvs");
+const /** @type {CanvasRenderingContext2D} */ ctx = canvas.getContext("2d");
+
+class MainClass {
+  constructor() {
+    this.position = new PositionClass(this); // create a position class instance
+    this.cube = new CubeClass(this); // create a cube class instance
+  }
+  draw() {
+    this.cube.draw(); // draw the cube
+  }
+  update() {
+    this.cube.update(); // update the cube
+  }
+}
+class PositionClass {
+  constructor(game) {
+    this.game = game;
+    this.x = 0;
+    this.y = 0;
+  }
+}
+class CubeClass {
+  constructor(game) {
+    this.game = game;
+    this.color = "red";
+    this.size = 10;
+  }
+  draw() {
+    ctx.fillStyle = this.color; // change the fill style to the desired color
+    ctx.fillRect(this.game.position.x, this.game.position.y, this.size, this.size); // create a 10x10 red cube at position (x, y)
+  }
+  update() {
+    this.game.position.x += 1; // move the cube 1 pixel to the right
+  }
+}
+
+const main = new MainClass(); // init the main class
+
+/**
+ * Animate the function by requesting animation frames and updating the game scene.
+ * Will loop through the function until the browser window is closed.
+ * @return {void} This function does not return any value.
+ */
+const animate = () => {
+  requestAnimationFrame(animate); //request loop animation
+  now = Date.now(); //get current timestamp
+  elapsed = now - then; //get elapsed time since last frame
+
+  // Check whether elapsed has passed fps interval
+  if (elapsed > fpsInterval) {
+    // Clear the canvas every frame
+    ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
+    // Draw the game scene and update the game scene each frame
+    main.draw();
+    main.update();
+
+    then = now - (elapsed % fpsInterval); // Set `now` to `then` (as the canvas has changed frame) and tolerate miscalculated time
+  }
+};
+
+/**
+ * Start the animation with the given frames per second (fps).
+ * Init the animation start
+ * @param {number} fps - The number of frames per second.
+ * @return {void} This function does not return a value.
+ */
+const startAnimate = (fps = 1) => {
+  fpsInterval = ONE_SECOND_IN_MS / fps; // Get how much time should elapse between each frame
+  initTime = then = Date.now();
+  animate(); // Call the animate func to start the game
+};
+
+document.addEventListener("DOMContentLoaded", startAnimate(45)); //animate with 45 fps
+```
+
+#### Result
+
+![1712682018241](image/readme/1712682018241.png)
+
+Or visit [localhost:5173/example](localhost:5173/example) if the server is running.
