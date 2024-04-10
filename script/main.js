@@ -58,7 +58,6 @@ const startAnimate = (fps = 1) => {
   fpsInterval = ONE_SECOND_IN_MS / fps; // Get how much time should elapse between each frame
   initTime = then = Date.now();
   animate(); // Call the animate func to start the game
-  console.log(`Game has started, TIMESTAMP: ${initTime}`);
 };
 
 /* -------------------------------------------------------------------------- */

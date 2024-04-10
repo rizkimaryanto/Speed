@@ -1,5 +1,6 @@
 import { SpriteScene } from "./spriteScene";
 import { TargetScene } from "./targetScene";
+import { TimerScene } from "./timerScene";
 
 const scoreTag = document.getElementById("score");
 
@@ -11,7 +12,9 @@ export class StartScene {
     this.difficulty = difficulty;
     this.spriteScene = new SpriteScene(this);
     this.targetScene = new TargetScene(this);
+    this.timerScene = new TimerScene(this);
     this.score = 0;
+    this.status = "unstarted";
   }
   /**
    * Do popup for score
@@ -33,6 +36,7 @@ export class StartScene {
     this.spriteScene.draw();
   }
   update() {
+    if (this.status === "finished") return;
     this.spriteScene.update();
     this.targetScene.update();
     this.updateScore();
@@ -53,6 +57,24 @@ export class StartScene {
     return this.height / 2 - size / 2;
   }
 
+  gameStart() {
+    this.status = "started";
+    this.timerScene.timerStart();
+  }
+
+  gameStop() {
+    this.status = "finished";
+    this.timerScene.timerStop();
+    this.showFinalScore();
+  }
+  showFinalScore() {
+    let finalScore = document.createElement("div");
+    finalScore.className =
+      "text-white text-3xl font-bold w-1/3 bg-purple-500 rounded text-center absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2";
+    finalScore.innerHTML = `Score: ${this.score}`;
+    document.getElementById("main").appendChild(finalScore);
+  }
+
   /* -------------------------------------------------------------------------- */
   /*                            INTELLISENSE PURPOSES                           */
   /* -------------------------------------------------------------------------- */
@@ -60,4 +82,5 @@ export class StartScene {
   /** @type {number} */ width;
   /** @type {number} */ height;
   /** @type {{speed: number, size: number}} */ difficulty;
+  /** @type {"unstarted" | "started" | "finished"} */ status;
 }

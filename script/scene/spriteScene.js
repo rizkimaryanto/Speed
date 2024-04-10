@@ -18,9 +18,11 @@ export class SpriteScene {
     /*                                 CONTROLLER                                 */
     /* -------------------------------------------------------------------------- */
     window.onkeydown = (/** @type {KeyboardEvent} */ e) => {
+      if (game.status === "finished") return;
       if (e.key === " " && !this.spacebarPressed) {
         this.hittable ? this.successHit() : this.failHit();
         this.spacebarPressed = true;
+        if (game.status === "unstarted") game.gameStart(); // Start the game
       }
     };
     window.onkeyup = (/** @type {KeyboardEvent} */ e) => {
@@ -29,8 +31,10 @@ export class SpriteScene {
       }
     };
     tapBtn.onpointerdown = () => {
+      if (game.status === "finished") return;
       if (!this.spacebarPressed) {
         this.hittable ? this.successHit() : this.failHit();
+        if (game.status === "unstarted") game.gameStart(); // Start the game
       }
     };
   }

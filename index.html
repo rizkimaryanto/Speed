@@ -20,8 +20,14 @@
     </button>
     <dialog id="tutorial_modal" class="modal -mt-24">
       <div class="modal-box">
-        <h3 class="font-bold text-lg">How to play</h3>
-        <p>TO BE GAME TUTORIAL</p>
+        <h3 class="font-bold text-xl">How to play</h3>
+        <ol class="list-inside list-decimal">
+          <li>Press "space" or "tap" to hit inside the target area</li>
+          <li>Hit outside of the target and you lose 5 points</li>
+          <li>Every success hit inside the target area adds 25 points</li>
+          <li>Hit either end and you lose 10 points</li>
+          <li>Start the game by pressing "space" or "tap"</li>
+        </ol>
         <p class="py-4 text-xs">Press ESC key or click outside to close</p>
       </div>
       <form method="dialog" class="modal-backdrop">
@@ -50,6 +56,13 @@
         <button class="btn btn-sm btn-error" onclick="window.location.search='?difficulty=hard'">
           Hard
         </button>
+      </div>
+      <div class="flex flex-nowrap flex-row justify-center gap-x-3 mt-5 [&>*]:text-2xl [&>*]:font-bold [&>*]:text-white">
+        <span id="minute">--</span>
+        <span>:</span>
+        <span id="second">--</span>
+        <span>:</span>
+        <span id="millisecond">--</span>
       </div>
       <!-- DIFFICULTY SECT -->
       <!-- ------------------------------ GAME SECT ------------------------------ -->
